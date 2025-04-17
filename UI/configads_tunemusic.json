@@ -1,0 +1,50 @@
+{
+    "data":{"banner":"admob", "interstitial": "admob", "native":"admob", "startapp_id": "204294420xx",
+	    "download":0,"popup":1, "background":0,"list_menu_popup":1,"auto":60,
+        "shared": 0,
+        "numOfDayPass": "1",
+        "openInBrowser": 0,
+        "begin":"2","view":"1","down":"1","showcomment": 0,
+        "ad_units" :{
+            "ios" : {
+                "banner":"",
+                "interstitial":"",
+                "nativeAd":""
+            },
+            "android" : {
+                "banner":"",
+                "interstitial":"",
+                "nativeAd":""
+            }
+        },
+        "admobid": {
+            "android": {
+                "banner": "",
+                "interstitial": "ca-app-pub-1656614863517753/3411223820",
+                "rewardvideo": "",
+                "native":"ca-app-pub-1656614863517753/8051098990",
+                "openapp":"ca-app-pub-1656614863517753/5845815478"
+            },
+            "ios" : {
+                "banner": "",
+                "interstitial": "",
+                "rewardvideo": ""
+            }
+        },
+        "startapp": {
+            "android": {
+                "banner": "",
+                "interstitial": "1",
+                "rewardvideo": ""
+            },
+            "ios" : {
+                "banner": "",
+                "interstitial": "",
+                "rewardvideo": ""
+            }
+        }
+
+    },
+	
+    "script":""
+}

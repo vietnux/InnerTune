@@ -1,20 +1,20 @@
 # InnerTune
 
-<img src="https://raw.githubusercontent.com/z-huang/InnerTune/dev/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" height="72">
+<img src="https://raw.githubusercontent.com/vietnux/InnerTune/dev/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" height="72">
 
 A Material 3 YouTube Music client for Android
 
-[![Latest release](https://img.shields.io/github/v/release/z-huang/InnerTune?include_prereleases)](https://github.com/z-huang/music/releases)
-[![License](https://img.shields.io/github/license/z-huang/InnerTune)](https://www.gnu.org/licenses/gpl-3.0)
-[![Downloads](https://img.shields.io/github/downloads/z-huang/InnerTune/total)](https://github.com/z-huang/InnerTune/releases)
+[![Latest release](https://img.shields.io/github/v/release/vietnux/InnerTune?include_prereleases)](https://github.com/vietnux/music/releases)
+[![License](https://img.shields.io/github/license/vietnux/InnerTune)](https://www.gnu.org/licenses/gpl-3.0)
+[![Downloads](https://img.shields.io/github/downloads/vietnux/InnerTune/total)](https://github.com/vietnux/InnerTune/releases)
 [![Translation](https://hosted.weblate.org/widget/innertune/svg-badge.svg)](https://hosted.weblate.org/engage/innertune/)
 
-[<img src="https://github.com/machiav3lli/oandbackupx/blob/034b226cea5c1b30eb4f6a6f313e4dadcbb0ece4/badge_github.png" alt="Get it on GitHub" height="80">](https://github.com/z-huang/InnerTune/releases/latest)
+[<img src="https://github.com/machiav3lli/oandbackupx/blob/034b226cea5c1b30eb4f6a6f313e4dadcbb0ece4/badge_github.png" alt="Get it on GitHub" height="80">](https://github.com/vietnux/InnerTune/releases/latest)
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80">](https://f-droid.org/packages/com.zionhuang.music)
 [<img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" height="80">](https://apt.izzysoft.de/fdroid/index/apk/com.zionhuang.music)
 
 
-[Compare versions](https://github.com/z-huang/InnerTune/wiki/App-Versions)
+[Compare versions](https://github.com/vietnux/InnerTune/wiki/App-Versions)
 
 ## Features
 
@@ -36,13 +36,13 @@ A Material 3 YouTube Music client for Android
 ## Screenshots
 
 <p float="left">
-  <img src="https://raw.githubusercontent.com/z-huang/InnerTune/dev/fastlane/metadata/android/en-US/images/phoneScreenshots/01.png" width="200" />
-  <img src="https://raw.githubusercontent.com/z-huang/InnerTune/dev/fastlane/metadata/android/en-US/images/phoneScreenshots/02.png" width="200" />
-  <img src="https://raw.githubusercontent.com/z-huang/InnerTune/dev/fastlane/metadata/android/en-US/images/phoneScreenshots/03.png" width="200" />
+  <img src="https://raw.githubusercontent.com/vietnux/InnerTune/dev/fastlane/metadata/android/en-US/images/phoneScreenshots/01.png" width="200" />
+  <img src="https://raw.githubusercontent.com/vietnux/InnerTune/dev/fastlane/metadata/android/en-US/images/phoneScreenshots/02.png" width="200" />
+  <img src="https://raw.githubusercontent.com/vietnux/InnerTune/dev/fastlane/metadata/android/en-US/images/phoneScreenshots/03.png" width="200" />
 </p>
 <p float="left">
-  <img src="https://raw.githubusercontent.com/z-huang/InnerTune/dev/fastlane/metadata/android/en-US/images/phoneScreenshots/04.png" width="200" />
-  <img src="https://raw.githubusercontent.com/z-huang/InnerTune/dev/fastlane/metadata/android/en-US/images/phoneScreenshots/05.png" width="200" />
+  <img src="https://raw.githubusercontent.com/vietnux/InnerTune/dev/fastlane/metadata/android/en-US/images/phoneScreenshots/04.png" width="200" />
+  <img src="https://raw.githubusercontent.com/vietnux/InnerTune/dev/fastlane/metadata/android/en-US/images/phoneScreenshots/05.png" width="200" />
 </p>
 
 > [!WARNING]
@@ -77,8 +77,8 @@ Thank you for helping translate InnerTune!
 If you like InnerTune, you're welcome to send a donation. Donations will support the development,
 including bug fixes and new features.
 
-<a href="https://liberapay.com/zionhuang"><img src="https://raw.githubusercontent.com/z-huang/InnerTune/dev/assets/liberapay.png" alt="Liberapay" height="60" ></a>
-<a href="https://www.buymeacoffee.com/zionhuang"><img src="https://raw.githubusercontent.com/z-huang/InnerTune/dev/assets/buymeacoffee.png" alt="Liberapay" height="60" ></a>
+<a href="https://liberapay.com/zionhuang"><img src="https://raw.githubusercontent.com/vietnux/InnerTune/dev/assets/liberapay.png" alt="Liberapay" height="60" ></a>
+<a href="https://www.buymeacoffee.com/zionhuang"><img src="https://raw.githubusercontent.com/vietnux/InnerTune/dev/assets/buymeacoffee.png" alt="Liberapay" height="60" ></a>
 
 ## Credit
 
