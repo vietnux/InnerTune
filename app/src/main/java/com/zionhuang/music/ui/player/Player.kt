@@ -63,7 +63,7 @@ import androidx.media3.common.Player.STATE_ENDED
 import androidx.media3.common.Player.STATE_READY
 import androidx.navigation.NavController
 import com.zionhuang.music.LocalPlayerConnection
-import com.zionhuang.music.R
+import com.playtube.musictube.tune.R
 import com.zionhuang.music.constants.DarkModeKey
 import com.zionhuang.music.constants.PlayerHorizontalPadding
 import com.zionhuang.music.constants.PlayerTextAlignmentKey

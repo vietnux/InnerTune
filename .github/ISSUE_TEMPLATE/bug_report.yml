@@ -72,11 +72,11 @@ body:
   - type: input
     id: app-version
     attributes:
-      label: InnerTune version
+      label: Tuner Music version
       description: |
-        You can find your InnerTune version in **Settings**.
+        You can find your Tuner Music version in **Settings**.
       placeholder: |
-        Example: "0.5.6"
+        Example: "1.0.0"
     validations:
       required: true
 

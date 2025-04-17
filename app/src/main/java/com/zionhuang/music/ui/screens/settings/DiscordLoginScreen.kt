@@ -25,7 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavController
 import com.zionhuang.music.LocalPlayerAwareWindowInsets
-import com.zionhuang.music.R
+import com.playtube.musictube.tune.R
 import com.zionhuang.music.constants.DiscordTokenKey
 import com.zionhuang.music.ui.component.IconButton
 import com.zionhuang.music.ui.utils.backToMain

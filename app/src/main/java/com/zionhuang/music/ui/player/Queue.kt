@@ -80,7 +80,7 @@ import androidx.media3.common.Timeline
 import androidx.media3.exoplayer.source.ShuffleOrder.DefaultShuffleOrder
 import androidx.navigation.NavController
 import com.zionhuang.music.LocalPlayerConnection
-import com.zionhuang.music.R
+import com.playtube.musictube.tune.R
 import com.zionhuang.music.constants.ListItemHeight
 import com.zionhuang.music.constants.LockQueueKey
 import com.zionhuang.music.constants.ShowLyricsKey

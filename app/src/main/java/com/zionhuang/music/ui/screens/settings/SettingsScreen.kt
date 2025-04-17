@@ -20,9 +20,10 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
-import com.zionhuang.music.BuildConfig
+import com.playtube.musictube.tune.BuildConfig
 import com.zionhuang.music.LocalPlayerAwareWindowInsets
-import com.zionhuang.music.R
+import com.playtube.musictube.tune.R
+import com.zionhuang.music.ads.EmulatorUtils
 import com.zionhuang.music.ui.component.IconButton
 import com.zionhuang.music.ui.component.PreferenceEntry
 import com.zionhuang.music.ui.utils.backToMain
@@ -41,7 +42,13 @@ fun SettingsScreen(
             .windowInsetsPadding(LocalPlayerAwareWindowInsets.current.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom))
             .verticalScroll(rememberScrollState())
     ) {
-        Spacer(Modifier.windowInsetsPadding(LocalPlayerAwareWindowInsets.current.only(WindowInsetsSides.Top)))
+        Spacer(
+            Modifier.windowInsetsPadding(
+                LocalPlayerAwareWindowInsets.current.only(
+                    WindowInsetsSides.Top
+                )
+            )
+        )
 
         PreferenceEntry(
             title = { Text(stringResource(R.string.appearance)) },
@@ -68,11 +75,12 @@ fun SettingsScreen(
             icon = { Icon(painterResource(R.drawable.security), null) },
             onClick = { navController.navigate("settings/privacy") }
         )
-        PreferenceEntry(
-            title = { Text(stringResource(R.string.discord_integration)) },
-            icon = { Icon(painterResource(R.drawable.discord), null) },
-            onClick = { navController.navigate("settings/discord") }
-        )
+        if (!EmulatorUtils.isGoogleEmulator())
+            PreferenceEntry(
+                title = { Text(stringResource(R.string.discord_integration)) },
+                icon = { Icon(painterResource(R.drawable.discord), null) },
+                onClick = { navController.navigate("settings/discord") }
+            )
         PreferenceEntry(
             title = { Text(stringResource(R.string.backup_restore)) },
             icon = { Icon(painterResource(R.drawable.restore), null) },
@@ -83,26 +91,26 @@ fun SettingsScreen(
             icon = { Icon(painterResource(R.drawable.info), null) },
             onClick = { navController.navigate("settings/about") }
         )
-        if (latestVersionName != BuildConfig.VERSION_NAME) {
-            PreferenceEntry(
-                title = {
-                    Text(
-                        text = stringResource(R.string.new_version_available),
-                    )
-                },
-                description = latestVersionName,
-                icon = {
-                    BadgedBox(
-                        badge = { Badge() }
-                    ) {
-                        Icon(painterResource(R.drawable.update), null)
-                    }
-                },
-                onClick = {
-                    uriHandler.openUri("https://github.com/z-huang/InnerTune/releases/latest")
-                }
-            )
-        }
+//        if (latestVersionName != BuildConfig.VERSION_NAME) {
+//            PreferenceEntry(
+//                title = {
+//                    Text(
+//                        text = stringResource(R.string.new_version_available),
+//                    )
+//                },
+//                description = latestVersionName,
+//                icon = {
+//                    BadgedBox(
+//                        badge = { Badge() }
+//                    ) {
+//                        Icon(painterResource(R.drawable.update), null)
+//                    }
+//                },
+//                onClick = {
+//                    uriHandler.openUri("https://github.com/vietnux/InnerTune/releases/latest")
+//                }
+//            )
+//        }
     }
 
     TopAppBar(

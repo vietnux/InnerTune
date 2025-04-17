@@ -18,7 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.zionhuang.music.LocalPlayerAwareWindowInsets
-import com.zionhuang.music.R
+import com.playtube.musictube.tune.R
 import com.zionhuang.music.constants.AudioNormalizationKey
 import com.zionhuang.music.constants.AudioQuality
 import com.zionhuang.music.constants.AudioQualityKey

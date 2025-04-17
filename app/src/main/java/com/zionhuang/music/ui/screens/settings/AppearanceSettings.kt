@@ -41,7 +41,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.zionhuang.music.LocalPlayerAwareWindowInsets
-import com.zionhuang.music.R
+import com.playtube.musictube.tune.R
 import com.zionhuang.music.constants.DarkModeKey
 import com.zionhuang.music.constants.DefaultOpenTabKey
 import com.zionhuang.music.constants.DynamicThemeKey

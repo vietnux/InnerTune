@@ -23,7 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import com.zionhuang.music.LocalDatabase
-import com.zionhuang.music.R
+import com.playtube.musictube.tune.R
 import com.zionhuang.music.constants.ListThumbnailSize
 import com.zionhuang.music.db.entities.Playlist
 import com.zionhuang.music.db.entities.PlaylistEntity

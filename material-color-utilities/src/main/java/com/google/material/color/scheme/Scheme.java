@@ -26,7 +26,7 @@ import com.google.material.color.palettes.CorePalette;
  * Represents a Material color scheme, a mapping of color roles to colors.
  *
  * @deprecated Please use dynamiccolor.DynamicScheme instead. Refer
- *     to https://github.com/material-foundation/material-color-utilities/blob/main/make_schemes.md
+ *     to <a href="https://github.com/material-foundation/material-color-utilities/blob/main/make_schemes.md">...</a>
  *     for migration guidance.
  */
 @Deprecated

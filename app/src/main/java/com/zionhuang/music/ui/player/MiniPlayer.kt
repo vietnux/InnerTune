@@ -39,7 +39,7 @@ import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import coil.compose.AsyncImage
 import com.zionhuang.music.LocalPlayerConnection
-import com.zionhuang.music.R
+import com.playtube.musictube.tune.R
 import com.zionhuang.music.constants.MiniPlayerHeight
 import com.zionhuang.music.constants.ThumbnailCornerRadius
 import com.zionhuang.music.extensions.togglePlayPause

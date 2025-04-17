@@ -46,7 +46,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.zionhuang.music.LocalDatabase
-import com.zionhuang.music.R
+import com.playtube.musictube.tune.R
 import com.zionhuang.music.db.entities.LyricsEntity
 import com.zionhuang.music.models.MediaMetadata
 import com.zionhuang.music.ui.component.DefaultDialog

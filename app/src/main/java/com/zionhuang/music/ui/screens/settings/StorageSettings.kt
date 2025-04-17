@@ -32,10 +32,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.annotation.ExperimentalCoilApi
 import coil.imageLoader
-import com.zionhuang.music.BuildConfig
+import com.playtube.musictube.tune.BuildConfig
 import com.zionhuang.music.LocalPlayerAwareWindowInsets
 import com.zionhuang.music.LocalPlayerConnection
-import com.zionhuang.music.R
+import com.playtube.musictube.tune.R
 import com.zionhuang.music.constants.MaxImageCacheSizeKey
 import com.zionhuang.music.constants.MaxSongCacheSizeKey
 import com.zionhuang.music.extensions.tryOrNull

@@ -48,7 +48,7 @@ import com.zionhuang.innertube.models.SongItem
 import com.zionhuang.innertube.models.WatchEndpoint
 import com.zionhuang.music.LocalPlayerAwareWindowInsets
 import com.zionhuang.music.LocalPlayerConnection
-import com.zionhuang.music.R
+import com.playtube.musictube.tune.R
 import com.zionhuang.music.constants.GridThumbnailHeight
 import com.zionhuang.music.extensions.togglePlayPause
 import com.zionhuang.music.models.toMediaMetadata

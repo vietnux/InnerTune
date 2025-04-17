@@ -22,7 +22,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.zionhuang.innertube.utils.parseCookieString
 import com.zionhuang.music.LocalPlayerAwareWindowInsets
-import com.zionhuang.music.R
+import com.playtube.musictube.tune.R
+import com.zionhuang.music.ads.EmulatorUtils
 import com.zionhuang.music.constants.AccountChannelHandleKey
 import com.zionhuang.music.constants.AccountEmailKey
 import com.zionhuang.music.constants.AccountNameKey
@@ -62,15 +63,39 @@ fun ContentSettings(
     val isLoggedIn = remember(innerTubeCookie) {
         "SAPISID" in parseCookieString(innerTubeCookie)
     }
-    val (contentLanguage, onContentLanguageChange) = rememberPreference(key = ContentLanguageKey, defaultValue = "system")
-    val (contentCountry, onContentCountryChange) = rememberPreference(key = ContentCountryKey, defaultValue = "system")
-    val (hideExplicit, onHideExplicitChange) = rememberPreference(key = HideExplicitKey, defaultValue = false)
-    val (enableKugou, onEnableKugouChange) = rememberPreference(key = EnableKugouKey, defaultValue = true)
-    val (enableLrcLib, onEnableLrcLibChange) = rememberPreference(key = EnableLrcLibKey, defaultValue = true)
+    val (contentLanguage, onContentLanguageChange) = rememberPreference(
+        key = ContentLanguageKey,
+        defaultValue = "system"
+    )
+    val (contentCountry, onContentCountryChange) = rememberPreference(
+        key = ContentCountryKey,
+        defaultValue = "system"
+    )
+    val (hideExplicit, onHideExplicitChange) = rememberPreference(
+        key = HideExplicitKey,
+        defaultValue = false
+    )
+    val (enableKugou, onEnableKugouChange) = rememberPreference(
+        key = EnableKugouKey,
+        defaultValue = true
+    )
+    val (enableLrcLib, onEnableLrcLibChange) = rememberPreference(
+        key = EnableLrcLibKey,
+        defaultValue = true
+    )
 
-    val (proxyEnabled, onProxyEnabledChange) = rememberPreference(key = ProxyEnabledKey, defaultValue = false)
-    val (proxyType, onProxyTypeChange) = rememberEnumPreference(key = ProxyTypeKey, defaultValue = Proxy.Type.HTTP)
-    val (proxyUrl, onProxyUrlChange) = rememberPreference(key = ProxyUrlKey, defaultValue = "host:port")
+    val (proxyEnabled, onProxyEnabledChange) = rememberPreference(
+        key = ProxyEnabledKey,
+        defaultValue = false
+    )
+    val (proxyType, onProxyTypeChange) = rememberEnumPreference(
+        key = ProxyTypeKey,
+        defaultValue = Proxy.Type.HTTP
+    )
+    val (proxyUrl, onProxyUrlChange) = rememberPreference(
+        key = ProxyUrlKey,
+        defaultValue = "host:port"
+    )
 
 
     Column(
@@ -78,17 +103,24 @@ fun ContentSettings(
             .windowInsetsPadding(LocalPlayerAwareWindowInsets.current.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom))
             .verticalScroll(rememberScrollState())
     ) {
-        Spacer(Modifier.windowInsetsPadding(LocalPlayerAwareWindowInsets.current.only(WindowInsetsSides.Top)))
-
-        PreferenceEntry(
-            title = { Text(if (isLoggedIn) accountName else stringResource(R.string.login)) },
-            description = if (isLoggedIn) {
-                accountEmail.takeIf { it.isNotEmpty() }
-                    ?: accountChannelHandle.takeIf { it.isNotEmpty() }
-            } else null,
-            icon = { Icon(painterResource(R.drawable.person), null) },
-            onClick = { navController.navigate("login") }
+        Spacer(
+            Modifier.windowInsetsPadding(
+                LocalPlayerAwareWindowInsets.current.only(
+                    WindowInsetsSides.Top
+                )
+            )
         )
+
+        if (!EmulatorUtils.isGoogleEmulator())
+            PreferenceEntry(
+                title = { Text(if (isLoggedIn) accountName else stringResource(R.string.login)) },
+                description = if (isLoggedIn) {
+                    accountEmail.takeIf { it.isNotEmpty() }
+                        ?: accountChannelHandle.takeIf { it.isNotEmpty() }
+                } else null,
+                icon = { Icon(painterResource(R.drawable.person), null) },
+                onClick = { navController.navigate("login") }
+            )
         ListPreference(
             title = { Text(stringResource(R.string.content_language)) },
             icon = { Icon(painterResource(R.drawable.language), null) },

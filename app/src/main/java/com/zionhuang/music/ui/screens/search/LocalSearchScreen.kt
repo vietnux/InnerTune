@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.zionhuang.music.LocalPlayerConnection
-import com.zionhuang.music.R
+import com.playtube.musictube.tune.R
 import com.zionhuang.music.constants.CONTENT_TYPE_LIST
 import com.zionhuang.music.constants.ListItemHeight
 import com.zionhuang.music.db.entities.Album

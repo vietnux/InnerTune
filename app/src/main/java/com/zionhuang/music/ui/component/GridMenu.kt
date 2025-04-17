@@ -1,5 +1,7 @@
 package com.zionhuang.music.ui.component
 
+import android.app.Activity
+import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
@@ -26,13 +28,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.media3.exoplayer.offline.Download
-import com.zionhuang.music.R
+import com.playtube.musictube.tune.R
+import com.zionhuang.music.MainActivity
+import com.zionhuang.music.ads.AdmobLib
+import com.zionhuang.music.ads.EmulatorUtils
+import com.zionhuang.music.ads.JsonParams
+import com.zionhuang.music.ads.RemoteJsonCallback
 
 val GridMenuItemHeight = 108.dp
 
@@ -57,19 +65,50 @@ fun LazyGridScope.GridMenuItem(
     @StringRes title: Int,
     enabled: Boolean = true,
     onClick: () -> Unit,
-) = GridMenuItem(
-    modifier = modifier,
-    icon = {
-        Icon(
-            painter = painterResource(icon),
-            tint = tint(),
-            contentDescription = null
-        )
-    },
-    title = title,
-    enabled = enabled,
-    onClick = onClick
-)
+) {
+    //check chặn shared và download, vấn đề m yt cấm cửa
+    if (title == R.string.share && EmulatorUtils.isGoogleEmulator() ) return
+    if (title == R.string.download && EmulatorUtils.isGoogleEmulator() ) return
+    /**
+     * if(  JsonParams.getParamInt("down") == 1 ){
+     *             //admob ads
+     *             new AdmobLib( (Activity)context ).interstitial( true, null, null );
+     *         }
+     */
+    // Chỉ bọc admobLib nếu là nút Download
+    val wrappedClick = if (title == R.string.download && JsonParams.getParamInt("down") == 1) {
+        {
+//            val context = MainActivity.javaClass
+//            val activity = context as? Activity
+            AdmobLib.getInstance( null ).adsInterstitialRandom( object : RemoteJsonCallback {
+                override fun onSuccess() {
+                    onClick()
+                }
+
+                override fun onError(e: Exception) {
+                    onClick()
+                }
+            } );
+        }
+    } else {
+        onClick
+    }
+
+    GridMenuItem(
+        modifier = modifier,
+        icon = {
+            Icon(
+                painter = painterResource(icon),
+                tint = tint(),
+                contentDescription = null
+            )
+        },
+        title = title,
+        enabled = enabled,
+        onClick = wrappedClick
+    )
+
+}
 
 fun LazyGridScope.GridMenuItem(
     modifier: Modifier = Modifier,

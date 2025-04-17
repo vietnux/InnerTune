@@ -54,7 +54,7 @@ import androidx.navigation.NavController
 import com.zionhuang.music.LocalDatabase
 import com.zionhuang.music.LocalDownloadUtil
 import com.zionhuang.music.LocalPlayerConnection
-import com.zionhuang.music.R
+import com.playtube.musictube.tune.R
 import com.zionhuang.music.constants.ListItemHeight
 import com.zionhuang.music.models.MediaMetadata
 import com.zionhuang.music.playback.ExoDownloadService

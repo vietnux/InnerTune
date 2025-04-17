@@ -55,7 +55,7 @@ import com.zionhuang.innertube.models.SongItem
 import com.zionhuang.innertube.models.WatchEndpoint
 import com.zionhuang.innertube.models.response.PlayerResponse
 import com.zionhuang.music.MainActivity
-import com.zionhuang.music.R
+import com.playtube.musictube.tune.R
 import com.zionhuang.music.constants.AudioNormalizationKey
 import com.zionhuang.music.constants.AudioQuality
 import com.zionhuang.music.constants.AudioQualityKey

@@ -24,7 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.zionhuang.music.R
+import com.playtube.musictube.tune.R
 import com.zionhuang.music.constants.ThumbnailCornerRadius
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

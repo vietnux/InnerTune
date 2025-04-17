@@ -44,7 +44,7 @@ import com.zionhuang.innertube.models.SongItem
 import com.zionhuang.music.LocalDatabase
 import com.zionhuang.music.LocalDownloadUtil
 import com.zionhuang.music.LocalPlayerConnection
-import com.zionhuang.music.R
+import com.playtube.musictube.tune.R
 import com.zionhuang.music.constants.ListItemHeight
 import com.zionhuang.music.constants.ListThumbnailSize
 import com.zionhuang.music.constants.ThumbnailCornerRadius

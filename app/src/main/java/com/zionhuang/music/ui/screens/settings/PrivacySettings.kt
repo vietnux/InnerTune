@@ -28,7 +28,7 @@ import androidx.navigation.NavController
 import com.zionhuang.innertube.YouTube
 import com.zionhuang.music.LocalDatabase
 import com.zionhuang.music.LocalPlayerAwareWindowInsets
-import com.zionhuang.music.R
+import com.playtube.musictube.tune.R
 import com.zionhuang.music.constants.DisableScreenshotKey
 import com.zionhuang.music.constants.PauseListenHistoryKey
 import com.zionhuang.music.constants.PauseSearchHistoryKey

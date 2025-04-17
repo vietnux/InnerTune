@@ -66,7 +66,7 @@ import com.zionhuang.innertube.models.SongItem
 import com.zionhuang.music.LocalDatabase
 import com.zionhuang.music.LocalPlayerAwareWindowInsets
 import com.zionhuang.music.LocalPlayerConnection
-import com.zionhuang.music.R
+import com.playtube.musictube.tune.R
 import com.zionhuang.music.constants.AppBarHeight
 import com.zionhuang.music.db.entities.ArtistEntity
 import com.zionhuang.music.extensions.togglePlayPause

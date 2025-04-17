@@ -61,7 +61,7 @@ import com.zionhuang.innertube.utils.parseCookieString
 import com.zionhuang.music.LocalDatabase
 import com.zionhuang.music.LocalPlayerAwareWindowInsets
 import com.zionhuang.music.LocalPlayerConnection
-import com.zionhuang.music.R
+import com.playtube.musictube.tune.R
 import com.zionhuang.music.constants.GridThumbnailHeight
 import com.zionhuang.music.constants.InnerTubeCookieKey
 import com.zionhuang.music.constants.ListItemHeight

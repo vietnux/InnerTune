@@ -37,7 +37,7 @@ import com.zionhuang.innertube.utils.completed
 import com.zionhuang.music.LocalDatabase
 import com.zionhuang.music.LocalDownloadUtil
 import com.zionhuang.music.LocalPlayerConnection
-import com.zionhuang.music.R
+import com.playtube.musictube.tune.R
 import com.zionhuang.music.db.entities.Playlist
 import com.zionhuang.music.db.entities.PlaylistSong
 import com.zionhuang.music.db.entities.PlaylistSongMap

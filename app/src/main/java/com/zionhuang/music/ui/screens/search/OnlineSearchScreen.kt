@@ -40,7 +40,7 @@ import com.zionhuang.innertube.models.PlaylistItem
 import com.zionhuang.innertube.models.SongItem
 import com.zionhuang.music.LocalDatabase
 import com.zionhuang.music.LocalPlayerConnection
-import com.zionhuang.music.R
+import com.playtube.musictube.tune.R
 import com.zionhuang.music.constants.SuggestionItemHeight
 import com.zionhuang.music.extensions.togglePlayPause
 import com.zionhuang.music.models.toMediaMetadata

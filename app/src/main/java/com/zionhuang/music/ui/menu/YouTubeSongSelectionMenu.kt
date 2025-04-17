@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.zionhuang.innertube.models.SongItem
 import com.zionhuang.music.LocalDatabase
 import com.zionhuang.music.LocalPlayerConnection
-import com.zionhuang.music.R
+import com.playtube.musictube.tune.R
 import com.zionhuang.music.extensions.toMediaItem
 import com.zionhuang.music.models.toMediaMetadata
 import com.zionhuang.music.playback.queues.ListQueue

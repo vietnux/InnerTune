@@ -22,7 +22,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavController
 import com.zionhuang.innertube.YouTube
 import com.zionhuang.music.LocalPlayerAwareWindowInsets
-import com.zionhuang.music.R
+import com.playtube.musictube.tune.R
 import com.zionhuang.music.constants.AccountChannelHandleKey
 import com.zionhuang.music.constants.AccountEmailKey
 import com.zionhuang.music.constants.AccountNameKey

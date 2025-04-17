@@ -1,4 +1,8 @@
 <resources>
+    <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
+    <!--            <string name="admob_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>-->
+    <string name="admob_id" translatable="false">ca-app-pub-1656614863517753~8449123626</string>
+
     <!-- Bottom navigation -->
     <string name="home">Home</string>
     <string name="songs">Songs</string>
@@ -316,7 +320,7 @@
     <string name="restore_failed">Failed to restore backup</string>
 
     <string name="discord_integration">Discord Integration</string>
-    <string name="discord_information">InnerTune uses the KizzyRPC library to set your Discord account\'s status. This involves using the Discord Gateway connection, which may be considered a violation of Discord\'s TOS. However, there are no known cases of user accounts being suspended for this reason. Use at your own risk.\n\nInnerTune will only extract your token, and everything else is stored locally.</string>
+    <string name="discord_information">Tuner Music uses the KizzyRPC library to set your Discord account\'s status. This involves using the Discord Gateway connection, which may be considered a violation of Discord\'s TOS. However, there are no known cases of user accounts being suspended for this reason. Use at your own risk.\n\nTuner Music will only extract your token, and everything else is stored locally.</string>
     <string name="dismiss">Dismiss</string>
     <string name="options">Options</string>
     <string name="preview">Preview</string>

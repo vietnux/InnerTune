@@ -3,7 +3,7 @@ package com.zionhuang.music.utils
 import android.content.Context
 import com.my.kizzy.rpc.KizzyRPC
 import com.my.kizzy.rpc.RpcImage
-import com.zionhuang.music.R
+import com.playtube.musictube.tune.R
 import com.zionhuang.music.db.entities.Song
 
 class DiscordRPC(

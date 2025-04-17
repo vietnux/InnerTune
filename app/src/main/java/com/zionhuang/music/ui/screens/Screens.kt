@@ -3,7 +3,7 @@ package com.zionhuang.music.ui.screens
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Immutable
-import com.zionhuang.music.R
+import com.playtube.musictube.tune.R
 
 @Immutable
 sealed class Screens(

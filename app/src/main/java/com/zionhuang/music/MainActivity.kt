@@ -95,6 +95,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import coil.imageLoader
 import coil.request.ImageRequest
+import com.playtube.musictube.tune.BuildConfig
 import com.valentinilk.shimmer.LocalShimmerTheme
 import com.zionhuang.innertube.YouTube
 import com.zionhuang.innertube.models.SongItem
@@ -156,6 +157,8 @@ import kotlinx.coroutines.withContext
 import java.net.URLDecoder
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.days
+import com.playtube.musictube.tune.R
+import com.zionhuang.music.ui.screens.SplashScreen
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -179,7 +182,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private var latestVersionName by mutableStateOf(BuildConfig.VERSION_NAME)
+    private var latestVersionName by mutableStateOf<String>(BuildConfig.VERSION_NAME)
 
     override fun onStart() {
         super.onStart()
@@ -224,569 +227,576 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
-            LaunchedEffect(Unit) {
-                if (System.currentTimeMillis() - Updater.lastCheckTime > 1.days.inWholeMilliseconds) {
-                    Updater.getLatestVersionName().onSuccess {
-                        latestVersionName = it
+            var showSplash by remember { mutableStateOf(true) }
+
+            if (showSplash) {
+                SplashScreen { showSplash = false }
+            } else {
+                LaunchedEffect(Unit) {
+                    if (System.currentTimeMillis() - Updater.lastCheckTime > 1.days.inWholeMilliseconds) {
+                        Updater.getLatestVersionName().onSuccess {
+                            latestVersionName = it
+                        }
                     }
                 }
-            }
 
-            val enableDynamicTheme by rememberPreference(DynamicThemeKey, defaultValue = true)
-            val darkTheme by rememberEnumPreference(DarkModeKey, defaultValue = DarkMode.AUTO)
-            val pureBlack by rememberPreference(PureBlackKey, defaultValue = false)
-            val isSystemInDarkTheme = isSystemInDarkTheme()
-            val useDarkTheme = remember(darkTheme, isSystemInDarkTheme) {
-                if (darkTheme == DarkMode.AUTO) isSystemInDarkTheme else darkTheme == DarkMode.ON
-            }
-            LaunchedEffect(useDarkTheme) {
-                setSystemBarAppearance(useDarkTheme)
-            }
-            var themeColor by rememberSaveable(stateSaver = ColorSaver) {
-                mutableStateOf(DefaultThemeColor)
-            }
-
-            LaunchedEffect(playerConnection, enableDynamicTheme, isSystemInDarkTheme) {
-                val playerConnection = playerConnection
-                if (!enableDynamicTheme || playerConnection == null) {
-                    themeColor = DefaultThemeColor
-                    return@LaunchedEffect
+                val enableDynamicTheme by rememberPreference(DynamicThemeKey, defaultValue = true)
+                val darkTheme by rememberEnumPreference(DarkModeKey, defaultValue = DarkMode.AUTO)
+                val pureBlack by rememberPreference(PureBlackKey, defaultValue = false)
+                val isSystemInDarkTheme = isSystemInDarkTheme()
+                val useDarkTheme = remember(darkTheme, isSystemInDarkTheme) {
+                    if (darkTheme == DarkMode.AUTO) isSystemInDarkTheme else darkTheme == DarkMode.ON
                 }
-                playerConnection.service.currentMediaMetadata.collectLatest { song ->
-                    themeColor = if (song != null) {
-                        withContext(Dispatchers.IO) {
-                            val result = imageLoader.execute(
-                                ImageRequest.Builder(this@MainActivity)
-                                    .data(song.thumbnailUrl)
-                                    .allowHardware(false) // pixel access is not supported on Config#HARDWARE bitmaps
-                                    .build()
-                            )
-                            (result.drawable as? BitmapDrawable)?.bitmap?.extractThemeColor() ?: DefaultThemeColor
-                        }
-                    } else DefaultThemeColor
+                LaunchedEffect(useDarkTheme) {
+                    setSystemBarAppearance(useDarkTheme)
                 }
-            }
+                var themeColor by rememberSaveable(stateSaver = ColorSaver) {
+                    mutableStateOf(DefaultThemeColor)
+                }
 
-            InnerTuneTheme(
-                darkTheme = useDarkTheme,
-                pureBlack = pureBlack,
-                themeColor = themeColor
-            ) {
-                BoxWithConstraints(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(MaterialTheme.colorScheme.surface)
+                LaunchedEffect(playerConnection, enableDynamicTheme, isSystemInDarkTheme) {
+                    val playerConnection = playerConnection
+                    if (!enableDynamicTheme || playerConnection == null) {
+                        themeColor = DefaultThemeColor
+                        return@LaunchedEffect
+                    }
+                    playerConnection.service.currentMediaMetadata.collectLatest { song ->
+                        themeColor = if (song != null) {
+                            withContext(Dispatchers.IO) {
+                                val result = imageLoader.execute(
+                                    ImageRequest.Builder(this@MainActivity)
+                                        .data(song.thumbnailUrl)
+                                        .allowHardware(false) // pixel access is not supported on Config#HARDWARE bitmaps
+                                        .build()
+                                )
+                                (result.drawable as? BitmapDrawable)?.bitmap?.extractThemeColor() ?: DefaultThemeColor
+                            }
+                        } else DefaultThemeColor
+                    }
+                }
+
+                InnerTuneTheme(
+                    darkTheme = useDarkTheme,
+                    pureBlack = pureBlack,
+                    themeColor = themeColor
                 ) {
-                    val focusManager = LocalFocusManager.current
-                    val density = LocalDensity.current
-                    val windowsInsets = WindowInsets.systemBars
-                    val bottomInset = with(density) { windowsInsets.getBottom(density).toDp() }
+                    BoxWithConstraints(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(MaterialTheme.colorScheme.surface)
+                    ) {
+                        val focusManager = LocalFocusManager.current
+                        val density = LocalDensity.current
+                        val windowsInsets = WindowInsets.systemBars
+                        val bottomInset = with(density) { windowsInsets.getBottom(density).toDp() }
 
-                    val navController = rememberNavController()
-                    val navBackStackEntry by navController.currentBackStackEntryAsState()
-                    val inSelectMode = navBackStackEntry?.savedStateHandle?.getStateFlow("inSelectMode", false)?.collectAsState()
+                        val navController = rememberNavController()
+                        val navBackStackEntry by navController.currentBackStackEntryAsState()
+                        val inSelectMode = navBackStackEntry?.savedStateHandle?.getStateFlow("inSelectMode", false)?.collectAsState()
 
-                    val navigationItems = remember { Screens.MainScreens }
-                    val defaultOpenTab = remember {
-                        dataStore[DefaultOpenTabKey].toEnum(defaultValue = NavigationTab.HOME)
-                    }
-                    val tabOpenedFromShortcut = remember {
-                        when (intent?.action) {
-                            ACTION_SONGS -> NavigationTab.SONG
-                            ACTION_ALBUMS -> NavigationTab.ALBUM
-                            ACTION_PLAYLISTS -> NavigationTab.PLAYLIST
-                            else -> null
+                        val navigationItems = remember { Screens.MainScreens }
+                        val defaultOpenTab = remember {
+                            dataStore[DefaultOpenTabKey].toEnum(defaultValue = NavigationTab.HOME)
                         }
-                    }
-                    val topLevelScreens = listOf(
-                        Screens.Home.route,
-                        Screens.Songs.route,
-                        Screens.Artists.route,
-                        Screens.Albums.route,
-                        Screens.Playlists.route,
-                        "settings"
-                    )
-
-                    val (query, onQueryChange) = rememberSaveable(stateSaver = TextFieldValue.Saver) {
-                        mutableStateOf(TextFieldValue())
-                    }
-                    var active by rememberSaveable {
-                        mutableStateOf(false)
-                    }
-                    val onActiveChange: (Boolean) -> Unit = { newActive ->
-                        active = newActive
-                        if (!newActive) {
-                            focusManager.clearFocus()
-                            if (navigationItems.fastAny { it.route == navBackStackEntry?.destination?.route }) {
-                                onQueryChange(TextFieldValue())
+                        val tabOpenedFromShortcut = remember {
+                            when (intent?.action) {
+                                ACTION_SONGS -> NavigationTab.SONG
+                                ACTION_ALBUMS -> NavigationTab.ALBUM
+                                ACTION_PLAYLISTS -> NavigationTab.PLAYLIST
+                                else -> null
                             }
                         }
-                    }
-                    var searchSource by rememberEnumPreference(SearchSourceKey, SearchSource.ONLINE)
+                        val topLevelScreens = listOf(
+                            Screens.Home.route,
+                            Screens.Songs.route,
+                            Screens.Artists.route,
+                            Screens.Albums.route,
+                            Screens.Playlists.route,
+                            "settings"
+                        )
 
-                    val searchBarFocusRequester = remember { FocusRequester() }
-
-                    val onSearch: (String) -> Unit = {
-                        if (it.isNotEmpty()) {
-                            onActiveChange(false)
-                            navController.navigate("search/${it.urlEncode()}")
-                            if (dataStore[PauseSearchHistoryKey] != true) {
-                                database.query {
-                                    insert(SearchHistory(query = it))
+                        val (query, onQueryChange) = rememberSaveable(stateSaver = TextFieldValue.Saver) {
+                            mutableStateOf(TextFieldValue())
+                        }
+                        var active by rememberSaveable {
+                            mutableStateOf(false)
+                        }
+                        val onActiveChange: (Boolean) -> Unit = { newActive ->
+                            active = newActive
+                            if (!newActive) {
+                                focusManager.clearFocus()
+                                if (navigationItems.fastAny { it.route == navBackStackEntry?.destination?.route }) {
+                                    onQueryChange(TextFieldValue())
                                 }
                             }
                         }
-                    }
+                        var searchSource by rememberEnumPreference(SearchSourceKey, SearchSource.ONLINE)
 
-                    var openSearchImmediately: Boolean by remember {
-                        mutableStateOf(intent?.action == ACTION_SEARCH)
-                    }
+                        val searchBarFocusRequester = remember { FocusRequester() }
 
-                    val shouldShowSearchBar = remember(active, navBackStackEntry, inSelectMode?.value) {
-                        (active ||
-                                navigationItems.fastAny { it.route == navBackStackEntry?.destination?.route } ||
-                                navBackStackEntry?.destination?.route?.startsWith("search/") == true) &&
-                                inSelectMode?.value != true
-                    }
-                    val shouldShowNavigationBar = remember(navBackStackEntry, active) {
-                        navBackStackEntry?.destination?.route == null ||
-                                navigationItems.fastAny { it.route == navBackStackEntry?.destination?.route } && !active
-                    }
-                    val navigationBarHeight by animateDpAsState(
-                        targetValue = if (shouldShowNavigationBar) NavigationBarHeight else 0.dp,
-                        animationSpec = NavigationBarAnimationSpec,
-                        label = ""
-                    )
-
-                    val playerBottomSheetState = rememberBottomSheetState(
-                        dismissedBound = 0.dp,
-                        collapsedBound = bottomInset + (if (shouldShowNavigationBar) NavigationBarHeight else 0.dp) + MiniPlayerHeight,
-                        expandedBound = maxHeight,
-                    )
-
-                    val playerAwareWindowInsets = remember(bottomInset, shouldShowNavigationBar, playerBottomSheetState.isDismissed) {
-                        var bottom = bottomInset
-                        if (shouldShowNavigationBar) bottom += NavigationBarHeight
-                        if (!playerBottomSheetState.isDismissed) bottom += MiniPlayerHeight
-                        windowsInsets
-                            .only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top)
-                            .add(WindowInsets(top = AppBarHeight, bottom = bottom))
-                    }
-
-                    val searchBarScrollBehavior = appBarScrollBehavior(
-                        canScroll = {
-                            navBackStackEntry?.destination?.route?.startsWith("search/") == false &&
-                                    (playerBottomSheetState.isCollapsed || playerBottomSheetState.isDismissed)
-                        }
-                    )
-                    val topAppBarScrollBehavior = appBarScrollBehavior(
-                        canScroll = {
-                            navBackStackEntry?.destination?.route?.startsWith("search/") == false &&
-                                    (playerBottomSheetState.isCollapsed || playerBottomSheetState.isDismissed)
-                        }
-                    )
-
-                    LaunchedEffect(navBackStackEntry) {
-                        if (navBackStackEntry?.destination?.route?.startsWith("search/") == true) {
-                            val searchQuery = withContext(Dispatchers.IO) {
-                                URLDecoder.decode(navBackStackEntry?.arguments?.getString("query")!!, "UTF-8")
+                        val onSearch: (String) -> Unit = {
+                            if (it.isNotEmpty()) {
+                                onActiveChange(false)
+                                navController.navigate("search/${it.urlEncode()}")
+                                if (dataStore[PauseSearchHistoryKey] != true) {
+                                    database.query {
+                                        insert(SearchHistory(query = it))
+                                    }
+                                }
                             }
-                            onQueryChange(TextFieldValue(searchQuery, TextRange(searchQuery.length)))
-                        } else if (navigationItems.fastAny { it.route == navBackStackEntry?.destination?.route }) {
-                            onQueryChange(TextFieldValue())
                         }
-                        searchBarScrollBehavior.state.resetHeightOffset()
-                        topAppBarScrollBehavior.state.resetHeightOffset()
-                    }
-                    LaunchedEffect(active) {
-                        if (active) {
+
+                        var openSearchImmediately: Boolean by remember {
+                            mutableStateOf(intent?.action == ACTION_SEARCH)
+                        }
+
+                        val shouldShowSearchBar = remember(active, navBackStackEntry, inSelectMode?.value) {
+                            (active ||
+                                    navigationItems.fastAny { it.route == navBackStackEntry?.destination?.route } ||
+                                    navBackStackEntry?.destination?.route?.startsWith("search/") == true) &&
+                                    inSelectMode?.value != true
+                        }
+                        val shouldShowNavigationBar = remember(navBackStackEntry, active) {
+                            navBackStackEntry?.destination?.route == null ||
+                                    navigationItems.fastAny { it.route == navBackStackEntry?.destination?.route } && !active
+                        }
+                        val navigationBarHeight by animateDpAsState(
+                            targetValue = if (shouldShowNavigationBar) NavigationBarHeight else 0.dp,
+                            animationSpec = NavigationBarAnimationSpec,
+                            label = ""
+                        )
+
+                        val playerBottomSheetState = rememberBottomSheetState(
+                            dismissedBound = 0.dp,
+                            collapsedBound = bottomInset + (if (shouldShowNavigationBar) NavigationBarHeight else 0.dp) + MiniPlayerHeight,
+                            expandedBound = maxHeight,
+                        )
+
+                        val playerAwareWindowInsets = remember(bottomInset, shouldShowNavigationBar, playerBottomSheetState.isDismissed) {
+                            var bottom = bottomInset
+                            if (shouldShowNavigationBar) bottom += NavigationBarHeight
+                            if (!playerBottomSheetState.isDismissed) bottom += MiniPlayerHeight
+                            windowsInsets
+                                .only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top)
+                                .add(WindowInsets(top = AppBarHeight, bottom = bottom))
+                        }
+
+                        val searchBarScrollBehavior = appBarScrollBehavior(
+                            canScroll = {
+                                navBackStackEntry?.destination?.route?.startsWith("search/") == false &&
+                                        (playerBottomSheetState.isCollapsed || playerBottomSheetState.isDismissed)
+                            }
+                        )
+                        val topAppBarScrollBehavior = appBarScrollBehavior(
+                            canScroll = {
+                                navBackStackEntry?.destination?.route?.startsWith("search/") == false &&
+                                        (playerBottomSheetState.isCollapsed || playerBottomSheetState.isDismissed)
+                            }
+                        )
+
+                        LaunchedEffect(navBackStackEntry) {
+                            if (navBackStackEntry?.destination?.route?.startsWith("search/") == true) {
+                                val searchQuery = withContext(Dispatchers.IO) {
+                                    URLDecoder.decode(navBackStackEntry?.arguments?.getString("query")!!, "UTF-8")
+                                }
+                                onQueryChange(TextFieldValue(searchQuery, TextRange(searchQuery.length)))
+                            } else if (navigationItems.fastAny { it.route == navBackStackEntry?.destination?.route }) {
+                                onQueryChange(TextFieldValue())
+                            }
                             searchBarScrollBehavior.state.resetHeightOffset()
                             topAppBarScrollBehavior.state.resetHeightOffset()
                         }
-                    }
-
-                    LaunchedEffect(playerConnection) {
-                        val player = playerConnection?.player ?: return@LaunchedEffect
-                        if (player.currentMediaItem == null) {
-                            if (!playerBottomSheetState.isDismissed) {
-                                playerBottomSheetState.dismiss()
-                            }
-                        } else {
-                            if (playerBottomSheetState.isDismissed) {
-                                playerBottomSheetState.collapseSoft()
+                        LaunchedEffect(active) {
+                            if (active) {
+                                searchBarScrollBehavior.state.resetHeightOffset()
+                                topAppBarScrollBehavior.state.resetHeightOffset()
                             }
                         }
-                    }
 
-                    DisposableEffect(playerConnection, playerBottomSheetState) {
-                        val player = playerConnection?.player ?: return@DisposableEffect onDispose { }
-                        val listener = object : Player.Listener {
-                            override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
-                                if (reason == Player.MEDIA_ITEM_TRANSITION_REASON_PLAYLIST_CHANGED && mediaItem != null && playerBottomSheetState.isDismissed) {
+                        LaunchedEffect(playerConnection) {
+                            val player = playerConnection?.player ?: return@LaunchedEffect
+                            if (player.currentMediaItem == null) {
+                                if (!playerBottomSheetState.isDismissed) {
+                                    playerBottomSheetState.dismiss()
+                                }
+                            } else {
+                                if (playerBottomSheetState.isDismissed) {
                                     playerBottomSheetState.collapseSoft()
                                 }
                             }
                         }
-                        player.addListener(listener)
-                        onDispose {
-                            player.removeListener(listener)
-                        }
-                    }
 
-                    val coroutineScope = rememberCoroutineScope()
-                    var sharedSong: SongItem? by remember {
-                        mutableStateOf(null)
-                    }
-                    DisposableEffect(Unit) {
-                        val listener = Consumer<Intent> { intent ->
-                            val uri = intent.data ?: intent.extras?.getString(Intent.EXTRA_TEXT)?.toUri() ?: return@Consumer
-                            when (val path = uri.pathSegments.firstOrNull()) {
-                                "playlist" -> uri.getQueryParameter("list")?.let { playlistId ->
-                                    if (playlistId.startsWith("OLAK5uy_")) {
-                                        coroutineScope.launch {
-                                            YouTube.albumSongs(playlistId).onSuccess { songs ->
-                                                songs.firstOrNull()?.album?.id?.let { browseId ->
-                                                    navController.navigate("album/$browseId")
+                        DisposableEffect(playerConnection, playerBottomSheetState) {
+                            val player = playerConnection?.player ?: return@DisposableEffect onDispose { }
+                            val listener = object : Player.Listener {
+                                override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
+                                    if (reason == Player.MEDIA_ITEM_TRANSITION_REASON_PLAYLIST_CHANGED && mediaItem != null && playerBottomSheetState.isDismissed) {
+                                        playerBottomSheetState.collapseSoft()
+                                    }
+                                }
+                            }
+                            player.addListener(listener)
+                            onDispose {
+                                player.removeListener(listener)
+                            }
+                        }
+
+                        val coroutineScope = rememberCoroutineScope()
+                        var sharedSong: SongItem? by remember {
+                            mutableStateOf(null)
+                        }
+                        DisposableEffect(Unit) {
+                            val listener = Consumer<Intent> { intent ->
+                                val uri = intent.data ?: intent.extras?.getString(Intent.EXTRA_TEXT)?.toUri() ?: return@Consumer
+                                when (val path = uri.pathSegments.firstOrNull()) {
+                                    "playlist" -> uri.getQueryParameter("list")?.let { playlistId ->
+                                        if (playlistId.startsWith("OLAK5uy_")) {
+                                            coroutineScope.launch {
+                                                YouTube.albumSongs(playlistId).onSuccess { songs ->
+                                                    songs.firstOrNull()?.album?.id?.let { browseId ->
+                                                        navController.navigate("album/$browseId")
+                                                    }
+                                                }.onFailure {
+                                                    reportException(it)
                                                 }
+                                            }
+                                        } else {
+                                            navController.navigate("online_playlist/$playlistId")
+                                        }
+                                    }
+
+                                    "channel", "c" -> uri.lastPathSegment?.let { artistId ->
+                                        navController.navigate("artist/$artistId")
+                                    }
+
+                                    else -> when {
+                                        path == "watch" -> uri.getQueryParameter("v")
+                                        uri.host == "youtu.be" -> path
+                                        else -> null
+                                    }?.let { videoId ->
+                                        coroutineScope.launch {
+                                            withContext(Dispatchers.IO) {
+                                                YouTube.queue(listOf(videoId))
+                                            }.onSuccess {
+                                                sharedSong = it.firstOrNull()
                                             }.onFailure {
                                                 reportException(it)
                                             }
                                         }
-                                    } else {
-                                        navController.navigate("online_playlist/$playlistId")
-                                    }
-                                }
-
-                                "channel", "c" -> uri.lastPathSegment?.let { artistId ->
-                                    navController.navigate("artist/$artistId")
-                                }
-
-                                else -> when {
-                                    path == "watch" -> uri.getQueryParameter("v")
-                                    uri.host == "youtu.be" -> path
-                                    else -> null
-                                }?.let { videoId ->
-                                    coroutineScope.launch {
-                                        withContext(Dispatchers.IO) {
-                                            YouTube.queue(listOf(videoId))
-                                        }.onSuccess {
-                                            sharedSong = it.firstOrNull()
-                                        }.onFailure {
-                                            reportException(it)
-                                        }
                                     }
                                 }
                             }
+
+                            addOnNewIntentListener(listener)
+                            onDispose { removeOnNewIntentListener(listener) }
                         }
 
-                        addOnNewIntentListener(listener)
-                        onDispose { removeOnNewIntentListener(listener) }
-                    }
-
-                    CompositionLocalProvider(
-                        LocalDatabase provides database,
-                        LocalContentColor provides contentColorFor(MaterialTheme.colorScheme.surface),
-                        LocalPlayerConnection provides playerConnection,
-                        LocalPlayerAwareWindowInsets provides playerAwareWindowInsets,
-                        LocalDownloadUtil provides downloadUtil,
-                        LocalShimmerTheme provides ShimmerTheme
-                    ) {
-                        NavHost(
-                            navController = navController,
-                            startDestination = when (tabOpenedFromShortcut ?: defaultOpenTab) {
-                                NavigationTab.HOME -> Screens.Home
-                                NavigationTab.SONG -> Screens.Songs
-                                NavigationTab.ARTIST -> Screens.Artists
-                                NavigationTab.ALBUM -> Screens.Albums
-                                NavigationTab.PLAYLIST -> Screens.Playlists
-                            }.route,
-                            enterTransition = {
-                                if (initialState.destination.route in topLevelScreens && targetState.destination.route in topLevelScreens) {
-                                    fadeIn(tween(250))
-                                } else {
-                                    fadeIn(tween(250)) + slideInHorizontally { it / 2 }
-                                }
-                            },
-                            exitTransition = {
-                                if (initialState.destination.route in topLevelScreens && targetState.destination.route in topLevelScreens) {
-                                    fadeOut(tween(200))
-                                } else {
-                                    fadeOut(tween(200)) + slideOutHorizontally { -it / 2 }
-                                }
-                            },
-                            popEnterTransition = {
-                                if ((initialState.destination.route in topLevelScreens || initialState.destination.route?.startsWith("search/") == true) && targetState.destination.route in topLevelScreens) {
-                                    fadeIn(tween(250))
-                                } else {
-                                    fadeIn(tween(250)) + slideInHorizontally { -it / 2 }
-                                }
-                            },
-                            popExitTransition = {
-                                if ((initialState.destination.route in topLevelScreens || initialState.destination.route?.startsWith("search/") == true) && targetState.destination.route in topLevelScreens) {
-                                    fadeOut(tween(200))
-                                } else {
-                                    fadeOut(tween(200)) + slideOutHorizontally { it / 2 }
-                                }
-                            },
-                            modifier = Modifier
-                                .nestedScroll(
-                                    if (navigationItems.fastAny { it.route == navBackStackEntry?.destination?.route } ||
-                                        navBackStackEntry?.destination?.route?.startsWith("search/") == true) {
-                                        searchBarScrollBehavior.nestedScrollConnection
+                        CompositionLocalProvider(
+                            LocalDatabase provides database,
+                            LocalContentColor provides contentColorFor(MaterialTheme.colorScheme.surface),
+                            LocalPlayerConnection provides playerConnection,
+                            LocalPlayerAwareWindowInsets provides playerAwareWindowInsets,
+                            LocalDownloadUtil provides downloadUtil,
+                            LocalShimmerTheme provides ShimmerTheme
+                        ) {
+                            NavHost(
+                                navController = navController,
+                                startDestination = when (tabOpenedFromShortcut ?: defaultOpenTab) {
+                                    NavigationTab.HOME -> Screens.Home
+                                    NavigationTab.SONG -> Screens.Songs
+                                    NavigationTab.ARTIST -> Screens.Artists
+                                    NavigationTab.ALBUM -> Screens.Albums
+                                    NavigationTab.PLAYLIST -> Screens.Playlists
+                                }.route,
+                                enterTransition = {
+                                    if (initialState.destination.route in topLevelScreens && targetState.destination.route in topLevelScreens) {
+                                        fadeIn(tween(250))
                                     } else {
-                                        topAppBarScrollBehavior.nestedScrollConnection
+                                        fadeIn(tween(250)) + slideInHorizontally { it / 2 }
                                     }
-                                )
-                        ) {
-                            navigationBuilder(navController, topAppBarScrollBehavior, latestVersionName)
-                        }
-
-                        AnimatedVisibility(
-                            visible = shouldShowSearchBar,
-                            enter = fadeIn(),
-                            exit = fadeOut()
-                        ) {
-                            SearchBar(
-                                query = query,
-                                onQueryChange = onQueryChange,
-                                onSearch = onSearch,
-                                active = active,
-                                onActiveChange = onActiveChange,
-                                scrollBehavior = searchBarScrollBehavior,
-                                placeholder = {
-                                    Text(
-                                        text = stringResource(
-                                            if (!active) R.string.search
-                                            else when (searchSource) {
-                                                SearchSource.LOCAL -> R.string.search_library
-                                                SearchSource.ONLINE -> R.string.search_yt_music
-                                            }
-                                        )
+                                },
+                                exitTransition = {
+                                    if (initialState.destination.route in topLevelScreens && targetState.destination.route in topLevelScreens) {
+                                        fadeOut(tween(200))
+                                    } else {
+                                        fadeOut(tween(200)) + slideOutHorizontally { -it / 2 }
+                                    }
+                                },
+                                popEnterTransition = {
+                                    if ((initialState.destination.route in topLevelScreens || initialState.destination.route?.startsWith("search/") == true) && targetState.destination.route in topLevelScreens) {
+                                        fadeIn(tween(250))
+                                    } else {
+                                        fadeIn(tween(250)) + slideInHorizontally { -it / 2 }
+                                    }
+                                },
+                                popExitTransition = {
+                                    if ((initialState.destination.route in topLevelScreens || initialState.destination.route?.startsWith("search/") == true) && targetState.destination.route in topLevelScreens) {
+                                        fadeOut(tween(200))
+                                    } else {
+                                        fadeOut(tween(200)) + slideOutHorizontally { it / 2 }
+                                    }
+                                },
+                                modifier = Modifier
+                                    .nestedScroll(
+                                        if (navigationItems.fastAny { it.route == navBackStackEntry?.destination?.route } ||
+                                            navBackStackEntry?.destination?.route?.startsWith("search/") == true) {
+                                            searchBarScrollBehavior.nestedScrollConnection
+                                        } else {
+                                            topAppBarScrollBehavior.nestedScrollConnection
+                                        }
                                     )
-                                },
-                                leadingIcon = {
-                                    IconButton(
-                                        onClick = {
-                                            when {
-                                                active -> onActiveChange(false)
-                                                !navigationItems.fastAny { it.route == navBackStackEntry?.destination?.route } -> {
-                                                    navController.navigateUp()
-                                                }
+                            ) {
+                                navigationBuilder(navController, topAppBarScrollBehavior, latestVersionName)
+                            }
 
-                                                else -> onActiveChange(true)
-                                            }
-                                        },
-                                        onLongClick = {
-                                            when {
-                                                active -> {}
-                                                !navigationItems.fastAny { it.route == navBackStackEntry?.destination?.route } -> {
-                                                    navController.backToMain()
+                            AnimatedVisibility(
+                                visible = shouldShowSearchBar,
+                                enter = fadeIn(),
+                                exit = fadeOut()
+                            ) {
+                                SearchBar(
+                                    query = query,
+                                    onQueryChange = onQueryChange,
+                                    onSearch = onSearch,
+                                    active = active,
+                                    onActiveChange = onActiveChange,
+                                    scrollBehavior = searchBarScrollBehavior,
+                                    placeholder = {
+                                        Text(
+                                            text = stringResource(
+                                                if (!active) R.string.search
+                                                else when (searchSource) {
+                                                    SearchSource.LOCAL -> R.string.search_library
+                                                    SearchSource.ONLINE -> R.string.search_yt_music
                                                 }
-
-                                                else -> {}
-                                            }
-                                        }
-                                    ) {
-                                        Icon(
-                                            painterResource(
-                                                if (active || !navigationItems.fastAny { it.route == navBackStackEntry?.destination?.route }) {
-                                                    R.drawable.arrow_back
-                                                } else {
-                                                    R.drawable.search
-                                                }
-                                            ),
-                                            contentDescription = null
+                                            )
                                         )
-                                    }
-                                },
-                                trailingIcon = {
-                                    if (active) {
-                                        if (query.text.isNotEmpty()) {
-                                            IconButton(
-                                                onClick = { onQueryChange(TextFieldValue("")) }
-                                            ) {
-                                                Icon(
-                                                    painter = painterResource(R.drawable.close),
-                                                    contentDescription = null
-                                                )
-                                            }
-                                        }
+                                    },
+                                    leadingIcon = {
                                         IconButton(
                                             onClick = {
-                                                searchSource = searchSource.toggle()
+                                                when {
+                                                    active -> onActiveChange(false)
+                                                    !navigationItems.fastAny { it.route == navBackStackEntry?.destination?.route } -> {
+                                                        navController.navigateUp()
+                                                    }
+
+                                                    else -> onActiveChange(true)
+                                                }
+                                            },
+                                            onLongClick = {
+                                                when {
+                                                    active -> {}
+                                                    !navigationItems.fastAny { it.route == navBackStackEntry?.destination?.route } -> {
+                                                        navController.backToMain()
+                                                    }
+
+                                                    else -> {}
+                                                }
                                             }
                                         ) {
                                             Icon(
-                                                painter = painterResource(
-                                                    when (searchSource) {
-                                                        SearchSource.LOCAL -> R.drawable.library_music
-                                                        SearchSource.ONLINE -> R.drawable.language
+                                                painterResource(
+                                                    if (active || !navigationItems.fastAny { it.route == navBackStackEntry?.destination?.route }) {
+                                                        R.drawable.arrow_back
+                                                    } else {
+                                                        R.drawable.search
                                                     }
                                                 ),
                                                 contentDescription = null
                                             )
                                         }
-                                    } else if (navBackStackEntry?.destination?.route in topLevelScreens) {
-                                        Box(
-                                            contentAlignment = Alignment.Center,
-                                            modifier = Modifier
-                                                .size(48.dp)
-                                                .clip(CircleShape)
-                                                .clickable {
-                                                    navController.navigate("settings")
+                                    },
+                                    trailingIcon = {
+                                        if (active) {
+                                            if (query.text.isNotEmpty()) {
+                                                IconButton(
+                                                    onClick = { onQueryChange(TextFieldValue("")) }
+                                                ) {
+                                                    Icon(
+                                                        painter = painterResource(R.drawable.close),
+                                                        contentDescription = null
+                                                    )
                                                 }
-                                        ) {
-                                            BadgedBox(
-                                                badge = {
-                                                    if (latestVersionName != BuildConfig.VERSION_NAME) {
-                                                        Badge()
-                                                    }
+                                            }
+                                            IconButton(
+                                                onClick = {
+                                                    searchSource = searchSource.toggle()
                                                 }
                                             ) {
-
                                                 Icon(
-                                                    painter = painterResource(R.drawable.settings),
+                                                    painter = painterResource(
+                                                        when (searchSource) {
+                                                            SearchSource.LOCAL -> R.drawable.library_music
+                                                            SearchSource.ONLINE -> R.drawable.language
+                                                        }
+                                                    ),
                                                     contentDescription = null
                                                 )
                                             }
-                                        }
-                                    }
-                                },
-                                focusRequester = searchBarFocusRequester,
-                                modifier = Modifier.align(Alignment.TopCenter),
-                            ) {
-                                Crossfade(
-                                    targetState = searchSource,
-                                    label = "",
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .padding(bottom = if (!playerBottomSheetState.isDismissed) MiniPlayerHeight else 0.dp)
-                                        .navigationBarsPadding()
-                                ) { searchSource ->
-                                    when (searchSource) {
-                                        SearchSource.LOCAL -> LocalSearchScreen(
-                                            query = query.text,
-                                            navController = navController,
-                                            onDismiss = { onActiveChange(false) }
-                                        )
-
-                                        SearchSource.ONLINE -> OnlineSearchScreen(
-                                            query = query.text,
-                                            onQueryChange = onQueryChange,
-                                            navController = navController,
-                                            onSearch = {
-                                                navController.navigate("search/${it.urlEncode()}")
-                                                if (dataStore[PauseSearchHistoryKey] != true) {
-                                                    database.query {
-                                                        insert(SearchHistory(query = it))
+                                        } else if (navBackStackEntry?.destination?.route in topLevelScreens) {
+                                            Box(
+                                                contentAlignment = Alignment.Center,
+                                                modifier = Modifier
+                                                    .size(48.dp)
+                                                    .clip(CircleShape)
+                                                    .clickable {
+                                                        navController.navigate("settings")
                                                     }
-                                                }
-                                            },
-                                            onDismiss = { onActiveChange(false) }
-                                        )
-                                    }
-                                }
-                            }
-                        }
+                                            ) {
+                                                BadgedBox(
+                                                    badge = {
+                                                        if (latestVersionName != BuildConfig.VERSION_NAME) {
+                                                            Badge()
+                                                        }
+                                                    }
+                                                ) {
 
-                        BottomSheetPlayer(
-                            state = playerBottomSheetState,
-                            navController = navController
-                        )
-
-                        NavigationBar(
-                            modifier = Modifier
-                                .align(Alignment.BottomCenter)
-                                .offset {
-                                    if (navigationBarHeight == 0.dp) {
-                                        IntOffset(x = 0, y = (bottomInset + NavigationBarHeight).roundToPx())
-                                    } else {
-                                        val slideOffset = (bottomInset + NavigationBarHeight) * playerBottomSheetState.progress.coerceIn(0f, 1f)
-                                        val hideOffset = (bottomInset + NavigationBarHeight) * (1 - navigationBarHeight / NavigationBarHeight)
-                                        IntOffset(
-                                            x = 0,
-                                            y = (slideOffset + hideOffset).roundToPx()
-                                        )
-                                    }
-                                }
-                        ) {
-                            navigationItems.fastForEach { screen ->
-                                NavigationBarItem(
-                                    selected = navBackStackEntry?.destination?.hierarchy?.any { it.route == screen.route } == true,
-                                    icon = {
-                                        Icon(
-                                            painter = painterResource(screen.iconId),
-                                            contentDescription = null
-                                        )
-                                    },
-                                    label = {
-                                        Text(
-                                            text = stringResource(screen.titleId),
-                                            maxLines = 1,
-                                            overflow = TextOverflow.Ellipsis
-                                        )
-                                    },
-                                    onClick = {
-                                        if (navBackStackEntry?.destination?.hierarchy?.any { it.route == screen.route } == true) {
-                                            navBackStackEntry?.savedStateHandle?.set("scrollToTop", true)
-                                            coroutineScope.launch {
-                                                searchBarScrollBehavior.state.resetHeightOffset()
-                                            }
-                                        } else {
-                                            navController.navigate(screen.route) {
-                                                popUpTo(navController.graph.startDestinationId) {
-                                                    saveState = true
+                                                    Icon(
+                                                        painter = painterResource(R.drawable.settings),
+                                                        contentDescription = null
+                                                    )
                                                 }
-                                                launchSingleTop = true
-                                                restoreState = true
                                             }
                                         }
-                                    }
-                                )
-                            }
-                        }
-
-                        BottomSheetMenu(
-                            state = LocalMenuState.current,
-                            modifier = Modifier.align(Alignment.BottomCenter)
-                        )
-
-                        sharedSong?.let { song ->
-                            playerConnection?.let { playerConnection ->
-                                Dialog(
-                                    onDismissRequest = { sharedSong = null },
-                                    properties = DialogProperties(usePlatformDefaultWidth = false)
+                                    },
+                                    focusRequester = searchBarFocusRequester,
+                                    modifier = Modifier.align(Alignment.TopCenter),
                                 ) {
-                                    Surface(
-                                        modifier = Modifier.padding(24.dp),
-                                        shape = RoundedCornerShape(16.dp),
-                                        color = AlertDialogDefaults.containerColor,
-                                        tonalElevation = AlertDialogDefaults.TonalElevation
-                                    ) {
-                                        Column(
-                                            horizontalAlignment = Alignment.CenterHorizontally
-                                        ) {
-                                            YouTubeSongMenu(
-                                                song = song,
+                                    Crossfade(
+                                        targetState = searchSource,
+                                        label = "",
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                            .padding(bottom = if (!playerBottomSheetState.isDismissed) MiniPlayerHeight else 0.dp)
+                                            .navigationBarsPadding()
+                                    ) { searchSource ->
+                                        when (searchSource) {
+                                            SearchSource.LOCAL -> LocalSearchScreen(
+                                                query = query.text,
                                                 navController = navController,
-                                                onDismiss = { sharedSong = null }
+                                                onDismiss = { onActiveChange(false) }
+                                            )
+
+                                            SearchSource.ONLINE -> OnlineSearchScreen(
+                                                query = query.text,
+                                                onQueryChange = onQueryChange,
+                                                navController = navController,
+                                                onSearch = {
+                                                    navController.navigate("search/${it.urlEncode()}")
+                                                    if (dataStore[PauseSearchHistoryKey] != true) {
+                                                        database.query {
+                                                            insert(SearchHistory(query = it))
+                                                        }
+                                                    }
+                                                },
+                                                onDismiss = { onActiveChange(false) }
                                             )
                                         }
                                     }
                                 }
                             }
-                        }
-                    }
 
-                    LaunchedEffect(shouldShowSearchBar, openSearchImmediately) {
-                        if (shouldShowSearchBar && openSearchImmediately) {
-                            onActiveChange(true)
-                            searchBarFocusRequester.requestFocus()
-                            openSearchImmediately = false
+                            BottomSheetPlayer(
+                                state = playerBottomSheetState,
+                                navController = navController
+                            )
+
+                            NavigationBar(
+                                modifier = Modifier
+                                    .align(Alignment.BottomCenter)
+                                    .offset {
+                                        if (navigationBarHeight == 0.dp) {
+                                            IntOffset(x = 0, y = (bottomInset + NavigationBarHeight).roundToPx())
+                                        } else {
+                                            val slideOffset = (bottomInset + NavigationBarHeight) * playerBottomSheetState.progress.coerceIn(0f, 1f)
+                                            val hideOffset = (bottomInset + NavigationBarHeight) * (1 - navigationBarHeight / NavigationBarHeight)
+                                            IntOffset(
+                                                x = 0,
+                                                y = (slideOffset + hideOffset).roundToPx()
+                                            )
+                                        }
+                                    }
+                            ) {
+                                navigationItems.fastForEach { screen ->
+                                    NavigationBarItem(
+                                        selected = navBackStackEntry?.destination?.hierarchy?.any { it.route == screen.route } == true,
+                                        icon = {
+                                            Icon(
+                                                painter = painterResource(screen.iconId),
+                                                contentDescription = null
+                                            )
+                                        },
+                                        label = {
+                                            Text(
+                                                text = stringResource(screen.titleId),
+                                                maxLines = 1,
+                                                overflow = TextOverflow.Ellipsis
+                                            )
+                                        },
+                                        onClick = {
+                                            if (navBackStackEntry?.destination?.hierarchy?.any { it.route == screen.route } == true) {
+                                                navBackStackEntry?.savedStateHandle?.set("scrollToTop", true)
+                                                coroutineScope.launch {
+                                                    searchBarScrollBehavior.state.resetHeightOffset()
+                                                }
+                                            } else {
+                                                navController.navigate(screen.route) {
+                                                    popUpTo(navController.graph.startDestinationId) {
+                                                        saveState = true
+                                                    }
+                                                    launchSingleTop = true
+                                                    restoreState = true
+                                                }
+                                            }
+                                        }
+                                    )
+                                }
+                            }
+
+                            BottomSheetMenu(
+                                state = LocalMenuState.current,
+                                modifier = Modifier.align(Alignment.BottomCenter)
+                            )
+
+                            sharedSong?.let { song ->
+                                playerConnection?.let { playerConnection ->
+                                    Dialog(
+                                        onDismissRequest = { sharedSong = null },
+                                        properties = DialogProperties(usePlatformDefaultWidth = false)
+                                    ) {
+                                        Surface(
+                                            modifier = Modifier.padding(24.dp),
+                                            shape = RoundedCornerShape(16.dp),
+                                            color = AlertDialogDefaults.containerColor,
+                                            tonalElevation = AlertDialogDefaults.TonalElevation
+                                        ) {
+                                            Column(
+                                                horizontalAlignment = Alignment.CenterHorizontally
+                                            ) {
+                                                YouTubeSongMenu(
+                                                    song = song,
+                                                    navController = navController,
+                                                    onDismiss = { sharedSong = null }
+                                                )
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        LaunchedEffect(shouldShowSearchBar, openSearchImmediately) {
+                            if (shouldShowSearchBar && openSearchImmediately) {
+                                onActiveChange(true)
+                                searchBarFocusRequester.requestFocus()
+                                openSearchImmediately = false
+                            }
                         }
                     }
                 }
             }
+
         }
     }
 

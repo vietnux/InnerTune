@@ -57,7 +57,7 @@ A Material 3 YouTube Music client for Android
 Use other music scrobbler apps. I
 recommend [Pano Scrobbler](https://play.google.com/store/apps/details?id=com.arn.scrobble).
 
-### Q: Why InnerTune isn't showing in Android Auto?
+### Q: Why Tuner Music isn't showing in Android Auto?
 
 1. Go to Android Auto's settings and tap multiple times on the version in the bottom to enable
    developer settings
@@ -89,7 +89,7 @@ Android development.
 ## Disclaimer
 
 This project and its contents are not affiliated with, funded, authorized, endorsed by, or in any
-way associated with YouTube, Google LLC, Innertune Media Inc., or any of its affiliates and
+way associated with YouTube, Google LLC, Tuner Music Media Inc., or any of its affiliates and
 subsidiaries.
 
 Any trademark, service mark, trade name, or other intellectual property rights used in this project

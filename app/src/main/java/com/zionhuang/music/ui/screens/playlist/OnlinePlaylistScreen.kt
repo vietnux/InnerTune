@@ -85,7 +85,7 @@ import com.zionhuang.innertube.models.WatchEndpoint
 import com.zionhuang.music.LocalDatabase
 import com.zionhuang.music.LocalPlayerAwareWindowInsets
 import com.zionhuang.music.LocalPlayerConnection
-import com.zionhuang.music.R
+import com.playtube.musictube.tune.R
 import com.zionhuang.music.constants.AlbumThumbnailSize
 import com.zionhuang.music.constants.HideExplicitKey
 import com.zionhuang.music.constants.ThumbnailCornerRadius

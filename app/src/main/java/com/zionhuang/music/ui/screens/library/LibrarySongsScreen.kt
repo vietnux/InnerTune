@@ -45,7 +45,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.zionhuang.music.LocalPlayerAwareWindowInsets
 import com.zionhuang.music.LocalPlayerConnection
-import com.zionhuang.music.R
+import com.playtube.musictube.tune.R
 import com.zionhuang.music.constants.CONTENT_TYPE_HEADER
 import com.zionhuang.music.constants.CONTENT_TYPE_SONG
 import com.zionhuang.music.constants.SongFilter

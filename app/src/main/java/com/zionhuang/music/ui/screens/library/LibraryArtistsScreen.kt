@@ -40,7 +40,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.zionhuang.music.LocalPlayerAwareWindowInsets
-import com.zionhuang.music.R
+import com.playtube.musictube.tune.R
 import com.zionhuang.music.constants.ArtistFilter
 import com.zionhuang.music.constants.ArtistFilterKey
 import com.zionhuang.music.constants.ArtistSortDescendingKey

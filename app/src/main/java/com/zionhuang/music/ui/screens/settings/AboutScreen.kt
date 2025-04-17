@@ -36,9 +36,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.zionhuang.music.BuildConfig
+import com.playtube.musictube.tune.BuildConfig
 import com.zionhuang.music.LocalPlayerAwareWindowInsets
-import com.zionhuang.music.R
+import com.playtube.musictube.tune.R
 import com.zionhuang.music.ui.component.IconButton
 import com.zionhuang.music.ui.utils.backToMain
 
@@ -75,7 +75,7 @@ fun AboutScreen(
             verticalAlignment = Alignment.Top,
         ) {
             Text(
-                text = "InnerTune",
+                text = "Tune Music",
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(top = 8.dp, bottom = 4.dp)
@@ -131,7 +131,7 @@ fun AboutScreen(
         Spacer(Modifier.height(4.dp))
 
         Text(
-            text = "by Zion Huang",
+            text = "by Tune Music Group",
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.secondary
         )
@@ -140,7 +140,7 @@ fun AboutScreen(
 
         Row {
             IconButton(
-                onClick = { uriHandler.openUri("https://github.com/z-huang/InnerTune") }
+                onClick = { uriHandler.openUri("https://github.com/vietnux/InnerTune") }
             ) {
                 Icon(
                     painter = painterResource(R.drawable.github),
@@ -149,7 +149,7 @@ fun AboutScreen(
             }
 
             IconButton(
-                onClick = { uriHandler.openUri("https://liberapay.com/zionhuang") }
+                onClick = { uriHandler.openUri("https://liberapay.com/vietnux") }
             ) {
                 Icon(
                     painter = painterResource(R.drawable.liberapay),
@@ -158,7 +158,7 @@ fun AboutScreen(
             }
 
             IconButton(
-                onClick = { uriHandler.openUri("https://www.buymeacoffee.com/zionhuang") }
+                onClick = { uriHandler.openUri("https://thegioilaptrinh.net/#donate") }
             ) {
                 Icon(
                     painter = painterResource(R.drawable.buymeacoffee),

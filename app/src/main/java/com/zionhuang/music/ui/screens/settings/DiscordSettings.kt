@@ -54,7 +54,7 @@ import coil.compose.AsyncImage
 import com.my.kizzy.rpc.KizzyRPC
 import com.zionhuang.music.LocalPlayerAwareWindowInsets
 import com.zionhuang.music.LocalPlayerConnection
-import com.zionhuang.music.R
+import com.playtube.musictube.tune.R
 import com.zionhuang.music.constants.DiscordInfoDismissedKey
 import com.zionhuang.music.constants.DiscordNameKey
 import com.zionhuang.music.constants.DiscordTokenKey

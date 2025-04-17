@@ -46,9 +46,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.zionhuang.music.BuildConfig
+import com.playtube.musictube.tune.BuildConfig
 import com.zionhuang.music.LocalPlayerConnection
-import com.zionhuang.music.R
+import com.playtube.musictube.tune.R
 import com.zionhuang.music.constants.PlayerTextAlignmentKey
 import com.zionhuang.music.constants.TranslateLyricsKey
 import com.zionhuang.music.db.entities.LyricsEntity.Companion.LYRICS_NOT_FOUND

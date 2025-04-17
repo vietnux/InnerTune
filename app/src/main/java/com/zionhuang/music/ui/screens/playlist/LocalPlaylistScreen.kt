@@ -97,7 +97,7 @@ import com.zionhuang.music.LocalDatabase
 import com.zionhuang.music.LocalDownloadUtil
 import com.zionhuang.music.LocalPlayerAwareWindowInsets
 import com.zionhuang.music.LocalPlayerConnection
-import com.zionhuang.music.R
+import com.playtube.musictube.tune.R
 import com.zionhuang.music.constants.AlbumThumbnailSize
 import com.zionhuang.music.constants.PlaylistEditLockKey
 import com.zionhuang.music.constants.PlaylistSongSortDescendingKey

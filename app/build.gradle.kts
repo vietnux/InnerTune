@@ -18,28 +18,18 @@ if (isFullBuild && System.getenv("PULL_REQUEST") == null) {
 }
 
 android {
-    namespace = "com.zionhuang.music"
+    namespace = "com.playtube.musictube.tune"
     compileSdk = 35
     buildToolsVersion = "35.0.0"
     defaultConfig {
-        applicationId = "com.zionhuang.music"
+        applicationId = "com.playtube.musictube.tune"
         minSdk = 24
         targetSdk = 35
-        versionCode = 26
-        versionName = "0.5.10"
+        versionCode = 1
+        versionName = "1.0.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-    buildTypes {
-        release {
-            isMinifyEnabled = true
-            isShrinkResources = true
-            isCrunchPngs = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
-        debug {
-            applicationIdSuffix = ".debug"
-        }
-    }
+
     flavorDimensions += "version"
     productFlavors {
         create("full") {
@@ -58,7 +48,7 @@ android {
 //            isUniversalApk = false
 //        }
 //    }
-    
+
     signingConfigs {
         getByName("debug") {
             if (System.getenv("MUSIC_DEBUG_SIGNING_STORE_PASSWORD") != null) {
@@ -67,6 +57,27 @@ android {
                 keyAlias = "debug"
                 keyPassword = System.getenv("MUSIC_DEBUG_SIGNING_KEY_PASSWORD")
             }
+        }
+        create("release") {
+            storeFile = file("../UI/tunemusic.jks")  // Đường dẫn tới keystore
+            storePassword = "tunemusic"  // Mật khẩu keystore
+            keyAlias = "tunemusic"  // Tên alias
+            keyPassword = "tunemusic"  // Mật khẩu cho alias
+        }
+    }
+    buildTypes {
+        release {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            isCrunchPngs = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+//            signingConfig = signingConfigs.getByName("release")  // Áp dụng cấu hình signingConfig cho release
+        }
+        debug {
+//            applicationIdSuffix = ".debug"
         }
     }
     buildFeatures {
@@ -143,6 +154,7 @@ dependencies {
     implementation(libs.media3.okhttp)
 
     implementation(libs.room.runtime)
+    implementation(libs.appcompat)
     ksp(libs.room.compiler)
     implementation(libs.room.ktx)
 
@@ -168,6 +180,11 @@ dependencies {
     "fullImplementation"(libs.mlkit.language.id)
     "fullImplementation"(libs.mlkit.translate)
     "fullImplementation"(libs.opencc4j)
+//    "fullImplementation"(libs.firebase.messaging.ktx)
+    "fullImplementation"(libs.firebase.messaging)
 
     implementation(libs.timber)
+
+    implementation(libs.play.services.ads)
+    implementation(projects.nativetemplates)
 }

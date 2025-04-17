@@ -25,7 +25,7 @@ import androidx.media3.exoplayer.offline.DownloadService
 import com.zionhuang.music.LocalDatabase
 import com.zionhuang.music.LocalDownloadUtil
 import com.zionhuang.music.LocalPlayerConnection
-import com.zionhuang.music.R
+import com.playtube.musictube.tune.R
 import com.zionhuang.music.extensions.metadata
 import com.zionhuang.music.playback.ExoDownloadService
 import com.zionhuang.music.playback.queues.ListQueue
