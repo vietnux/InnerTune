@@ -1,6 +1,6 @@
 # InnerTune
 
-<img src="https://github.com/vietnux/InnerTune/UI/logo.png" height="72">
+<img src="https://github.com/vietnux/InnerTune/tree/dev/UI/logo.png" height="72">
 
 A Material 3 YouTube Music client for Android
 
